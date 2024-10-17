@@ -1,4 +1,9 @@
-class itemz:
+"""System that calculates the total price of items in a shopping cart"""
+
+
+class Itemz:
+
+    """The class that defines Itemz"""
 
     def __init__(self, name, price, qty):
 
@@ -12,103 +17,115 @@ class itemz:
 
         self.env_fee = 0
 
-    def getTotal(self):
+    def get_total(self):
+
+        """Function that gets the total price"""
+
         return self.price * self.qty
 
-    def getTMostPrices(self):
+    def get_most_prices(self):
+
+        """Function that gets most prices"""
+
         return self.price * self.qty * 0.6
 
 # class to shop
 
-class shoppin_cart:
+
+class ShoppinCart:
+
+    """The class that defines Shopping Cart"""
 
     def __init__(self):
 
         self.items = []
 
-        self.taxRate = 0.08
+        self.tax_rate = 0.08
 
-        self.memberDiscount = 0.05
+        self.member_discount = 0.05
 
-        self.bigSpenderDiscount = 10
+        self.big_spender_discount = 10
 
-        self.couponDiscount = 0.15
+        self.coupon_discount = 0.15
 
         self.currency = "USD"
 
-    def addItem(self, item):
+    def add_item(self, item):
+
+        """Function that add items to the cart"""
 
         # discount added here
 
         self.items.append(item)
 
+    def calculate_subtotal(self):
 
-
-    def calculateSubtotal(self):
-
-    # todo: fix this in the future i guess
+        """Function that calculates the subtotal"""
 
         subtotal = 0
 
         for item in self.items:
 
-            subtotal += item.getTotal()
+            subtotal += item.get_total()
 
         return subtotal
 
+    def apply_discounts(self, subtotal, is_member):
 
+        """Function that applies discounts"""
 
-    def applyDiscounts(self, subtotal, isMember, hasCoupon):
+        if is_member == "yes":
 
-        if isMember == "yes":
-
-            subtotal = subtotal - (subtotal * self.memberDiscount)
+            subtotal = subtotal - (subtotal * self.member_discount)
 
         if subtotal > 100:
 
-            subtotal = subtotal - self.bigSpenderDiscount
+            subtotal = subtotal - self.big_spender_discount
 
         return subtotal
 
+    def calculate_total(self, is_member, has_coupon):
 
+        """Function that calculates the total of the Shopping Cart"""
 
-    def calculateTotal(self, isMember, hasCoupon):
+        # why i need this? @user
 
-#why i need this? @user
+        subtotal = self.calculate_subtotal()
 
-        subtotal = self.calculateSubtotal()
+        subtotal = self.apply_discounts(subtotal, is_member)
 
-        subtotal = self.applyDiscounts(subtotal, isMember, hasCoupon)
+        total = subtotal + (subtotal * self.tax_rate)
 
-        total = subtotal + (subtotal * self.taxRate)
+        if has_coupon == "YES":
 
-        if hasCoupon == "YES":
-
-            total = total - (total * self.couponDiscount)
+            total = total - (total * self.coupon_discount)
 
         return total
 
+
 def main():
 
-    cart = shoppin_cart()
+    """Main function that defines the program"""
 
-    item1 = itemz("Apple", 1.5, 10)
+    cart = ShoppinCart()
 
-    item2 = itemz("Banana", 0.5, 5)
+    item1 = Itemz("Apple", 1.5, 10)
 
-    item3 = itemz("Laptop", "1000", 1)
+    item2 = Itemz("Banana", 0.5, 5)
+
+    item3 = Itemz("Laptop", "1000", 1)
 
     item3.category = "electronics"
 
-    cart.addItem(item1)
+    cart.add_item(item1)
 
-    cart.addItem(item2)
+    cart.add_item(item2)
 
-    cart.addItem(item3)
+    cart.add_item(item3)
 
     is_member = True
     has_coupon = "YES"
-    total = cart.calculateTotal(is_member, has_coupon)
+    total = cart.calculate_total(is_member, has_coupon)
 
     if total < 0:
 
@@ -117,6 +134,7 @@ def main():
     else:
 
         print("The total price is: $" + str(int(total)))
+
 
 if __name__ == "__main__":
 
