@@ -74,7 +74,7 @@ def main():
 
     item1 = Itemz("Apple", 1.5, 10)
     item2 = Itemz("Banana", 0.5, 5)
-    item3 = Itemz("Laptop", 1000, 1)  # Fixed price to be an integer
+    item3 = Itemz("Laptop", 1000, 1)
     item3.category = "electronics"
 
     cart.add_item(item1)
